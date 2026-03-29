@@ -1,0 +1,6 @@
+project stats
+files={{{totalFiles}}} dirs={{{totalDirs}}} avg_file_lines={{{avgLines}}} avg_file_chars={{{avgChars}}} avg_line_length={{{avgLineLength}}}
+top_by_lines={{{topByLines}}}
+top_by_chars={{{topByChars}}}
+top_dirs={{{topDirs}}}
+top_long_lines={{{topLongLines}}}

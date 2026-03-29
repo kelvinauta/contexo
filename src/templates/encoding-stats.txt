@@ -1,0 +1,2 @@
+encoding stats
+encoding={{{encoding}}} compare_model={{{compareModel}}} tokens={{{tokenEstimate}}} context_window={{{contextWindow}}} usage={{{usageEstimate}}} cost_usd={{{costEstimate}}}

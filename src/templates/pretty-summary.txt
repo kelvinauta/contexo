@@ -1,0 +1,39 @@
+{{{banner}}}
+
+  {{{stdoutLabel}}}
+    lines        {{{totalLines}}}
+    chars        {{{totalChars}}}
+{{#showEncoding}}
+
+  {{{encodingLabel}}}
+    encoder      {{{encoding}}}
+    compare      {{{compareModel}}}
+    tokens       {{{tokenEstimate}}}
+    context      {{{contextWindow}}}
+    usage        {{{usageEstimate}}}
+    cost usd     {{{costEstimate}}}
+{{/showEncoding}}
+
+  {{{projectLabel}}}
+    files        {{{totalFiles}}}
+    dirs         {{{totalDirs}}}
+    avg lines    {{{avgLines}}} / file
+    avg chars    {{{avgChars}}} / file
+    avg len      {{{avgLineLength}}} / line
+
+  {{{topLinesLabel}}}
+{{{topByLines}}}
+
+  {{{topCharsLabel}}}
+{{{topByChars}}}
+
+  {{{topDirsLabel}}}
+{{{topDirs}}}
+
+  {{{topLongLinesLabel}}}
+{{{topLongLines}}}
+{{#showArgs}}
+
+  {{{argsLabel}}}
+    {{{invocationArgs}}}
+{{/showArgs}}

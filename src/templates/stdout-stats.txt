@@ -1,0 +1,2 @@
+stdout stats
+total_lines={{{totalLines}}} total_chars={{{totalChars}}}

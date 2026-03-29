@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist/types",
+    "rootDir": "."
+  },
+  "include": ["src/**/*", "build/**/*", "scripts/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist", "packages/*/bin"]
+}
