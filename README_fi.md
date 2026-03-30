@@ -103,34 +103,19 @@ contexo some/path \
     Käyttää `anomalyco/models.dev`:iä (paikallisesti) verratakseen tokeneita ajantasaisiin malleihin
     ja laskeakseen kuinka suuren osan konteksti-ikkunasta `kontekstisi` "painaa" ja mitä se maksaa suunnilleen.
 
-# Asennus
+# Installation
 
-> Linux on tällä hetkellä testatuin, mutta releaset tuottavat myös binäärejä macOS:lle ja Windowsille.
-* Lataa esikäännetyt binäärit `Releases`:sta
-esimerkki Linuxille:
+* [Download Realease Binary](https://github.com/kelvinauta/ConteXo/releases)
+
+OR
+* Build desde el código fuente
+> `bun` requerido: [Bun](https://bun.com/docs/installation)
+
 ```bash
-curl -fsSL "https://github.com/kelvinauta/ConteXo/releases/latest/download/contexo-linux-x64" -o "$HOME/.local/bin/contexo" && chmod +x "$HOME/.local/bin/contexo"
-```
-* Käännä lähdekoodista
-Kloonaa tämä repo, asenna riippuvuudet ja käännä Bunilla.
-> targetit: https://bun.com/docs/bundler/executables#supported-targets
-esimerkkejä:
-```bash
+git clone https://github.com/kelvinauta/ConteXo.git
 bun install
 bun run build:binary -- --target bun-linux-x64
 install -m 755 ./contexo /usr/local/bin/contexo
-```
-
-Jos haluat generoida release-assetit checksumeilla:
-```bash
-bun run build:release
-```
-
-Jos muokkaat projektia ja haluat validoida nykyisen suiten nopeasti:
-```bash
-bun run test:low
-bun run test:medium
-bun run test:high
 ```
 
 # Käyttöopas
@@ -148,6 +133,7 @@ contexo --summary
 contexo some/path --summary
 contexo some/path --summary --ignore some/dir --ignore other/dir
 ```
+
 Normaali tuloste sisältää jo summaryn alussa; `--summary` vain vaihtaa
 tiivistelmä-/visuaalitilaan ja piilottaa `context` + `skippedlist`.
 Jos haluat vain piilottaa summaryn, käytä `--nosummary` tai `--hide summary`.

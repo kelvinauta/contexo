@@ -106,31 +106,18 @@ contexo some/path \
 # Installation
 
 > Linux is the most tested right now, but releases also generate binaries for macOS and Windows.
-* Download precompiled binaries from `Releases`
-example for linux:
-```bash
-curl -fsSL "https://github.com/kelvinauta/ConteXo/releases/latest/download/contexo-linux-x64" -o "$HOME/.local/bin/contexo" && chmod +x "$HOME/.local/bin/contexo"
-```
+
+* [Download Realease Binary](https://github.com/kelvinauta/ConteXo/releases)
+OR
 * Build from source
-Clone this repo, install dependencies, and build with Bun.
-> targets at: https://bun.com/docs/bundler/executables#supported-targets
-examples:
+
+> To Build required: [Bun](https://bun.com/docs/installation)
+
 ```bash
+git clone https://github.com/kelvinauta/ConteXo.git
 bun install
 bun run build:binary -- --target bun-linux-x64
 install -m 755 ./contexo /usr/local/bin/contexo
-```
-
-If you want to generate release assets with checksums:
-```bash
-bun run build:release
-```
-
-If you are working on the project and want to quickly validate the current suite:
-```bash
-bun run test:low
-bun run test:medium
-bun run test:high
 ```
 
 # Usage Guide

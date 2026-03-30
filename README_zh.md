@@ -104,34 +104,19 @@ contexo some/path \
     使用 `anomalyco/models.dev`（本地）与更新后的模型比较 token，
     这样你就能估算你的 `context` 占用了多少上下文窗口，以及大概要花多少钱。
 
-# 安装
+# Installation
 
-> 目前 Linux 测试最多，但 release 也会生成 macOS 和 Windows 的二进制文件。
-* 在 `Releases` 中下载预编译二进制文件
-linux 示例：
+* [Download Realease Binary](https://github.com/kelvinauta/ConteXo/releases)
+
+OR
+* Build desde el código fuente
+> `bun` requerido: [Bun](https://bun.com/docs/installation)
+
 ```bash
-curl -fsSL "https://github.com/kelvinauta/ConteXo/releases/latest/download/contexo-linux-x64" -o "$HOME/.local/bin/contexo" && chmod +x "$HOME/.local/bin/contexo"
-```
-* 从源码编译
-克隆这个仓库，安装依赖，并用 Bun 编译。
-> targets 见：https://bun.com/docs/bundler/executables#supported-targets
-示例：
-```bash
+git clone https://github.com/kelvinauta/ConteXo.git
 bun install
 bun run build:binary -- --target bun-linux-x64
 install -m 755 ./contexo /usr/local/bin/contexo
-```
-
-如果你想生成带 checksums 的 release 资产：
-```bash
-bun run build:release
-```
-
-如果你正在改这个项目，想快速验证当前测试集：
-```bash
-bun run test:low
-bun run test:medium
-bun run test:high
 ```
 
 # 使用指南

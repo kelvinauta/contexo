@@ -103,34 +103,19 @@ contexo some/path \
     Usa `anomalyco/models.dev` (en local) para comparar los tokens con modelos actualizados
     y así calcular cuánto de ventana de contexto "pesa" tu `contexto` y cuánto te costará aproximadamente.
 
-# Instalación
+# Installation
 
-> Linux es lo más testeado actualmente, pero los releases también generan binarios para macOS y Windows.
-* Descarga binarios precompilados en `Releases`
-ejemplo para linux:
+* [Download Realease Binary](https://github.com/kelvinauta/ConteXo/releases)
+
+OR
+* Build desde el código fuente
+> `bun` requerido: [Bun](https://bun.com/docs/installation)
+
 ```bash
-curl -fsSL "https://github.com/kelvinauta/ConteXo/releases/latest/download/contexo-linux-x64" -o "$HOME/.local/bin/contexo" && chmod +x "$HOME/.local/bin/contexo"
-```
-* Compila desde el código fuente
-Clona este repo, instala dependencias y compila con Bun.
-> targets en: https://bun.com/docs/bundler/executables#supported-targets
-ejemplos:
-```bash
+git clone https://github.com/kelvinauta/ConteXo.git
 bun install
 bun run build:binary -- --target bun-linux-x64
 install -m 755 ./contexo /usr/local/bin/contexo
-```
-
-Si quieres generar los assets de release con checksums:
-```bash
-bun run build:release
-```
-
-Si estás tocando el proyecto y quieres validar rápido la suite actual:
-```bash
-bun run test:low
-bun run test:medium
-bun run test:high
 ```
 
 # Guía de uso

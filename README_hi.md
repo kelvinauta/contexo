@@ -102,34 +102,19 @@ contexo some/path \
     updated models के साथ tokens compare करने के लिए `anomalyco/models.dev` (locally) का उपयोग करता है
     ताकि यह निकाला जा सके कि तुम्हारा `context` context window का कितना हिस्सा "वज़न" रखता है और लगभग कितना खर्च आएगा।
 
-# Instalacion
+# Installation
 
-> Linux अभी सबसे ज़्यादा test किया गया है, लेकिन releases macOS और Windows के लिए भी binaries बनाते हैं।
-* `Releases` से precompiled binaries डाउनलोड करो
-linux के लिए उदाहरण:
+* [Download Realease Binary](https://github.com/kelvinauta/ConteXo/releases)
+
+OR
+* Build desde el código fuente
+> `bun` requerido: [Bun](https://bun.com/docs/installation)
+
 ```bash
-curl -fsSL "https://github.com/kelvinauta/ConteXo/releases/latest/download/contexo-linux-x64" -o "$HOME/.local/bin/contexo" && chmod +x "$HOME/.local/bin/contexo"
-```
-* Source code से compile करो
-इस repo को clone करो, dependencies install करो, और Bun से compile करो।
-> targets यहां हैं: https://bun.com/docs/bundler/executables#supported-targets
-उदाहरण:
-```bash
+git clone https://github.com/kelvinauta/ConteXo.git
 bun install
 bun run build:binary -- --target bun-linux-x64
 install -m 755 ./contexo /usr/local/bin/contexo
-```
-
-अगर तुम checksums के साथ release assets बनाना चाहते हो:
-```bash
-bun run build:release
-```
-
-अगर तुम project पर काम कर रहे हो और current suite को जल्दी validate करना चाहते हो:
-```bash
-bun run test:low
-bun run test:medium
-bun run test:high
 ```
 
 # Guia de uso
