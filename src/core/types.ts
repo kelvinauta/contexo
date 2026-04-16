@@ -9,6 +9,7 @@ export interface LimitConfig {
 export interface ContexoConfig {
   path: string;
   ignore: string[];
+  cliIgnore: string[];
   ignoreRegex: string[];
   pattern: string[];
   enc: string;

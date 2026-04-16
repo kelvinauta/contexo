@@ -3,7 +3,7 @@ import { runContexo } from "../utils/runner";
 
 describe("Self Contextualization Smoke", () => {
   test("generates a valid context of the project itself", () => {
-    const result = runContexo("./src", ["--clean", "all", "--ignore", "tests", "--ignore", "node_modules", "--ignore", "languages.json"]);
+    const result = runContexo("./src", ["--clean", "all", "--ignore", "tests", "--ignore", "node_modules", "--ignore", "src/config/languages.json"]);
 
     expect(result.success).toBe(true);
     expect(result.stdout).toContain("Scanner");

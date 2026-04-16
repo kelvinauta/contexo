@@ -10,6 +10,7 @@ const TEMP_PATTERN_PROJECT = "/tmp/contexo-pattern-contract";
 const TEMP_ROOT_IGNORE_PROJECT = "/tmp/contexo-root-ignore-contract";
 const TEMP_NESTED_IGNORE_PROJECT = "/tmp/contexo-nested-ignore-contract";
 const TEMP_EXPLICIT_IGNORE_PROJECT = "/tmp/contexo-explicit-ignore-contract";
+const TEMP_CWD_IGNORE_PROJECT = "/tmp/contexo-cwd-ignore-contract";
 const TEMP_REGEX_IGNORE_PROJECT = "/tmp/contexo-regex-ignore-contract";
 const TEMP_REGEX_IGNORE_LONG_PROJECT = "/tmp/contexo-regex-ignore-contract-long";
 
@@ -48,6 +49,11 @@ describe("Ignore And Pattern Contract", () => {
       "keep.ts": "export const keep = true;\n",
       "ignore-me.py": "print('skip me by pattern')\n",
       "skipme/deep/hidden.ts": "export const hidden = true;\n",
+    });
+
+    await resetProject(TEMP_CWD_IGNORE_PROJECT, {
+      "examples/file.txt": "keep\n",
+      "examples/TOIGNORE.txt": "skip\n",
     });
 
     await resetProject(TEMP_REGEX_IGNORE_PROJECT, {
@@ -133,7 +139,9 @@ describe("Ignore And Pattern Contract", () => {
   });
 
   test("summarizes explicit ignores and pattern filtering without listing every pattern miss", () => {
-    const res = runContexo(TEMP_EXPLICIT_IGNORE_PROJECT, ["--ignore", "skipme", "--ignore", "does-not-exist", "--pattern", "*.ts"]);
+    const res = runContexo(".", ["--ignore", "skipme", "--ignore", "does-not-exist", "--pattern", "*.ts"], {
+      cwd: TEMP_EXPLICIT_IGNORE_PROJECT,
+    });
 
     expect(res.success).toBe(true);
     expect(res.stdout).toContain("filename: keep.ts");
@@ -142,6 +150,24 @@ describe("Ignore And Pattern Contract", () => {
     expect(res.stdout).toContain(`${TEMP_EXPLICIT_IGNORE_PROJECT}/skipme (ignored by --ignore)`);
     expect(res.stdout).toContain("--pattern: non-matching paths ignored");
     expect(res.stdout).not.toContain("does-not-exist");
+  });
+
+  test("resolves --ignore relative paths from cwd instead of the scan root", () => {
+    const keepRes = runContexo("examples", ["--ignore", "examples/TOIGNORE.txt", "--hide", "summary"], {
+      cwd: TEMP_CWD_IGNORE_PROJECT,
+    });
+
+    expect(keepRes.success).toBe(true);
+    expect(keepRes.stdout).toContain("filename: file.txt");
+    expect(keepRes.stdout).not.toContain("filename: TOIGNORE.txt");
+    expect(keepRes.stdout).toContain(`${TEMP_CWD_IGNORE_PROJECT}/examples/TOIGNORE.txt (ignored by --ignore)`);
+
+    const strictRes = runContexo("examples", ["--ignore", "TOIGNORE.txt", "--hide", "summary,skippedlist"], {
+      cwd: TEMP_CWD_IGNORE_PROJECT,
+    });
+
+    expect(strictRes.success).toBe(true);
+    expect(strictRes.stdout).toContain("filename: TOIGNORE.txt");
   });
 
   test("summarizes regex ignores with matching paths when the line stays short", () => {

@@ -57,6 +57,7 @@ export const DEFAULT_CONFIG = {
     ".env",
     ".coverage",
   ],
+  cliIgnore: [],
   ignoreRegex: [
     "\\*.py[cod]",
     "\\*.o",

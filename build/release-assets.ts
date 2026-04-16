@@ -12,8 +12,7 @@ const RELEASE_ASSETS: ReleaseAsset[] = [
   { target: "bun-linux-arm64", asset: "contexo-linux-arm64" },
   { target: "bun-darwin-x64", asset: "contexo-darwin-x64" },
   { target: "bun-darwin-arm64", asset: "contexo-darwin-arm64" },
-  { target: "bun-windows-x64", asset: "contexo-windows-x64.exe" },
-  { target: "bun-windows-arm64", asset: "contexo-windows-arm64.exe" },
+  { target: "bun-windows-x64", asset: "contexo-windows-x64.exe" }
 ];
 
 const args = process.argv.slice(2);

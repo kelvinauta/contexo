@@ -27,6 +27,7 @@ interface IgnoreRegexRule {
 
 export class Scanner {
   private explicitIgnore: Ignore;
+  private cliIgnorePaths: string[];
   private ignoreRegex: IgnoreRegexRule[];
   private patternMatcher: Ignore | null;
   private disableIgnorefile: boolean;
@@ -38,6 +39,7 @@ export class Scanner {
     private ignoreRules: string[], 
     private ignoreRegexStrings: string[],
     private options: {
+      cliIgnorePaths?: string[];
       patterns?: string[];
       limitNested: number;
       limitFiles: number;
@@ -47,6 +49,7 @@ export class Scanner {
     }
   ) {
     this.explicitIgnore = ignore();
+    this.cliIgnorePaths = this.normalizeCliIgnorePaths(options.cliIgnorePaths || []);
     const normalizedIgnoreRules = this.normalizeIgnoreRules(ignoreRules);
     if (normalizedIgnoreRules.length > 0) {
       this.explicitIgnore.add(normalizedIgnoreRules);
@@ -83,13 +86,19 @@ export class Scanner {
       limitReached: false,
     };
 
-    if (rootStats.isFile()) {
-      const ignoreDecision = this.getRuleIgnoreDecision(absoluteRoot, path.basename(absoluteRoot), path.basename(absoluteRoot), false);
-      if (ignoreDecision.ignored) {
-        this.recordRuleIgnore(absoluteRoot, ignoreDecision, state);
-        return this.buildResult(state);
-      }
+    const rootRelativeToRoot = rootStats.isFile() ? path.basename(absoluteRoot) : "";
+    const rootIgnoreDecision = this.getRuleIgnoreDecision(
+      absoluteRoot,
+      path.basename(absoluteRoot),
+      rootRelativeToRoot,
+      rootStats.isDirectory()
+    );
+    if (rootIgnoreDecision.ignored) {
+      this.recordRuleIgnore(absoluteRoot, rootIgnoreDecision, state);
+      return this.buildResult(state);
+    }
 
+    if (rootStats.isFile()) {
       this.addFile(absoluteRoot, path.basename(absoluteRoot), rootStats.size, state);
       return this.buildResult(state);
     }
@@ -237,11 +246,17 @@ export class Scanner {
     | { ignored: false }
     | { ignored: true; source: "--ignore" }
     | { ignored: true; source: "--ignore-regex"; pattern: string } {
-    const explicitPath = this.toIgnorePath(relativeToRoot);
-    const candidate = isDirectory ? this.ensureTrailingSlash(explicitPath) : explicitPath;
-
-    if (candidate && this.explicitIgnore.ignores(candidate)) {
+    if (this.matchesCliIgnorePath(fullPath)) {
       return { ignored: true, source: "--ignore" };
+    }
+
+    if (relativeToRoot !== "") {
+      const explicitPath = this.toIgnorePath(relativeToRoot);
+      const candidate = isDirectory ? this.ensureTrailingSlash(explicitPath) : explicitPath;
+
+      if (candidate && this.explicitIgnore.ignores(candidate)) {
+        return { ignored: true, source: "--ignore" };
+      }
     }
 
     for (const rule of this.ignoreRegex) {
@@ -459,6 +474,35 @@ export class Scanner {
     }
 
     return Array.from(normalized);
+  }
+
+  private normalizeCliIgnorePaths(ignorePaths: string[]): string[] {
+    const normalized = new Set<string>();
+
+    for (const ignorePath of ignorePaths) {
+      if (!ignorePath) {
+        continue;
+      }
+
+      normalized.add(path.normalize(ignorePath));
+    }
+
+    return Array.from(normalized);
+  }
+
+  private matchesCliIgnorePath(fullPath: string): boolean {
+    const normalizedFullPath = path.normalize(fullPath);
+
+    return this.cliIgnorePaths.some((ignorePath) => this.isPathEqualOrWithin(normalizedFullPath, ignorePath));
+  }
+
+  private isPathEqualOrWithin(targetPath: string, ignorePath: string): boolean {
+    if (targetPath === ignorePath) {
+      return true;
+    }
+
+    const relative = path.relative(ignorePath, targetPath);
+    return relative !== "" && !relative.startsWith("..") && !path.isAbsolute(relative);
   }
 
   private toIgnorePath(targetPath: string): string {

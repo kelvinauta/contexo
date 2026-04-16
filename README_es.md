@@ -209,7 +209,7 @@ dicho esto `--clean all` y `--clean "blankline,spaceunless,comments:line,comment
 `ConteXo` puede recortar muchísimo ruido antes de emitir contexto:
 
 - `--pattern`: filtra por glob root-relative. Puede repetirse y también aceptar CSV.
-- `--ignore`: añade ignores explícitos.
+- `--ignore`: añade ignores explícitos con rutas relativas al PWD.
 - `--ignore-regex`: añade ignores por regex.
 - `.gitignore` y `.ignore`: se aplican automáticamente y de forma recursiva por subárbol.
 - `--disable-ignorefile`: desactiva la lectura de `.gitignore` / `.ignore`.
@@ -219,6 +219,7 @@ Ejemplos:
 contexo . --pattern "src/**/*.ts"
 contexo . --pattern "src/**/*.ts" --pattern "scripts/*.ts,src/*.py"
 contexo . --ignore dist --ignore node_modules
+contexo examples --ignore examples/TOIGNORE.txt
 contexo . --ignore-regex "\\.min\\.(js|css)$"
 ```
 

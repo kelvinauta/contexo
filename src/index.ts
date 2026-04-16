@@ -71,6 +71,7 @@ async function main() {
 
         if (spinner) spinner.text = pc.cyan("Scanning directory...");
         const scanner = new Scanner(config.ignore, config.ignoreRegex, {
+            cliIgnorePaths: config.cliIgnore,
             patterns: config.pattern,
             limitNested: config.limitNested,
             limitFiles: config.limitFiles,

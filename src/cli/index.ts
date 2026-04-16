@@ -76,6 +76,10 @@ function parseCsvFlag(values: string[] | undefined): string[] {
   return (values || []).flatMap((value) => value.split(",")).map((value) => value.trim()).filter(Boolean);
 }
 
+function resolveCliPathArg(value: string): string {
+  return path.resolve(process.cwd(), value);
+}
+
 function getSearchableArgs(rawArgs: string[], endOfFlagsArgs: string[]): string[] {
   const separatorIndex = rawArgs.indexOf("--");
   if (separatorIndex !== -1) {
@@ -230,7 +234,7 @@ export function parseCli() {
       },
       ignore: {
         type: [String],
-        description: "Folders or files to ignore. Can be used multiple times.",
+        description: "CWD-relative folders or files to ignore. Can be used multiple times.",
       },
       clean: {
         type: [String],
@@ -452,6 +456,7 @@ export function parseCli() {
     listModels: argv.flags.models,
     showReadme: argv.flags.readme,
     ignore: [...DEFAULT_CONFIG.ignore],
+    cliIgnore: [],
     ignoreRegex: [...DEFAULT_CONFIG.ignoreRegex],
     pattern: [],
     disableIgnorefile: argv.flags.disableIgnorefile,
@@ -515,7 +520,7 @@ export function parseCli() {
   }
 
   if (argv.flags.ignore.length) {
-    config.ignore.push(...argv.flags.ignore);
+    config.cliIgnore = Array.from(new Set(argv.flags.ignore.map((value) => resolveCliPathArg(value))));
   }
   if (argv.flags.ignoreRegex.length) {
     config.ignoreRegex.push(...argv.flags.ignoreRegex);

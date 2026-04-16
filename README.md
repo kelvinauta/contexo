@@ -211,7 +211,7 @@ that said `--clean all` and `--clean "blankline,spaceunless,comments:line,commen
 `ConteXo` can cut a lot of noise before emitting context:
 
 - `--pattern`: filters by root-relative glob. It can be repeated and also accepts CSV.
-- `--ignore`: adds explicit ignores.
+- `--ignore`: adds explicit CWD-relative path ignores.
 - `--ignore-regex`: adds regex-based ignores.
 - `.gitignore` and `.ignore`: they are applied automatically and recursively by subtree.
 - `--disable-ignorefile`: disables reading `.gitignore` / `.ignore`.
@@ -221,6 +221,7 @@ Examples:
 contexo . --pattern "src/**/*.ts"
 contexo . --pattern "src/**/*.ts" --pattern "scripts/*.ts,src/*.py"
 contexo . --ignore dist --ignore node_modules
+contexo examples --ignore examples/TOIGNORE.txt
 contexo . --ignore-regex "\\.min\\.(js|css)$"
 ```
 

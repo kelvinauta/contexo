@@ -8,9 +8,9 @@ export interface RunResult {
   success: boolean;
 }
 
-export function runContexo(targetPath?: string, flags: string[] = []): RunResult {
+export function runContexo(targetPath?: string, flags: string[] = [], options: { cwd?: string } = {}): RunResult {
   const args = GET_CONETXO_ARGS(targetPath, flags);
-  const result = spawnSync([COMMAND, ...args]);
+  const result = spawnSync([COMMAND, ...args], { cwd: options.cwd });
 
   return {
     stdout: result.stdout?.toString() || "",
